@@ -6,7 +6,6 @@ var Book = require('../models').Book;
 router.get('/', async (req, res, next) => {
   // res.render('index', { title: 'Express' });
   const books = await Book.findAll();
-  console.log(books);
   res.json({ books: books });
 });
 

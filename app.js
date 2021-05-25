@@ -7,6 +7,7 @@ var sequelize = require('./models').sequelize;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const { exists } = require('fs');
 
 var app = express();
 
@@ -41,7 +42,11 @@ app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  console.log('404 error handler called');
+  const err = new Error("It looks like this page doesn't exists.");
+  res.status(404);
+  res.render('page-not-found', {error: err});
+  next(err);
 });
 
 // error handler

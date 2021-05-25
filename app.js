@@ -43,10 +43,9 @@ app.use('/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log('404 error handler called');
-  const err = new Error("It looks like this page doesn't exists.");
+  const err = new Error("It looks like this page doesn't exist.");
   res.status(404);
   res.render('page-not-found', {error: err});
-  next(err);
 });
 
 // error handler

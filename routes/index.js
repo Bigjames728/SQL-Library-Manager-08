@@ -73,9 +73,23 @@ router.post('/books/:id', asyncHandler (async (req, res, next) => {
 // Deletes a book
 router.post('/books/:id/delete', asyncHandler( async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
-  await Book.destroy(book);
-  res.redirect('/books');
-  
+  if (book) {
+    await book.destroy();
+    res.redirect('/books');
+  } else {
+    res.sendStatus(404);
+  }
 }));
+
+// /* Delete individual article code for reference */
+// router.post('/:id/delete', asyncHandler(async (req ,res) => {
+//   const article = await Article.findByPk(req.params.id);
+//   if (article) {
+//     await article.destroy();
+//     res.redirect("/articles");
+//   } else {
+//     res.sendStatus(404);
+//   }
+// }));
 
 module.exports = router;

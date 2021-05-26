@@ -13,11 +13,33 @@ function asyncHandler(cb) {
   }
 }
 
+// Redirect when the url is localhost:3000/ to localhost:3000/books
+
+router.get('/', asyncHandler(async(req, res) => {
+  res.redirect('/books');
+}));
+
+
 /* GET home page. */
 router.get('/books', asyncHandler (async(req, res, next) => {
   // res.render('index', { title: 'Express' });
   const books = await Book.findAll();
   res.render('index', { books: books });
 }));
+
+// Create new book form
+
+
+
+// Post new book to database
+
+
+// Shows book detail form
+
+
+// Update book info in database
+
+
+// Deletes a book
 
 module.exports = router;

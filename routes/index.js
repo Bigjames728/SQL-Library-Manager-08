@@ -14,7 +14,6 @@ function asyncHandler(cb) {
 }
 
 // Redirect when the url is localhost:3000/ to localhost:3000/books
-
 router.get('/', asyncHandler(async(req, res) => {
   res.redirect('/books');
 }));
@@ -27,7 +26,9 @@ router.get('/books', asyncHandler (async(req, res, next) => {
 }));
 
 // Create new book form
-
+router.get('/books/new', asyncHandler (async(req, res, next) => {
+  res.render('new-book');
+}));
 
 
 // Post new book to database

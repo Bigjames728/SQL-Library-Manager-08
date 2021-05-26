@@ -5,7 +5,7 @@ block content
     h1 New Book
 
 
-    form
+    form(action="/books/new" method="POST")
         p
             label(for='title') Title
             input(name='title' type='text' id='title')

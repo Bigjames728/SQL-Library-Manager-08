@@ -2,6 +2,9 @@ extends layout
 
 block content
   h1 Books
+
+  a.button(href='/books/new') Add Book
+
   p 
     table 
       thead 
@@ -15,7 +18,9 @@ block content
         each book in books 
          tr 
           td #{book.id}
+            a.button(href=`books/${book.id}`) #{book.title}
           td #{book.title}
           td #{book.author}
           td #{book.genre}
           td #{book.year}
+  

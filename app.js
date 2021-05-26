@@ -40,18 +40,25 @@ app.use('/users', usersRouter);
   }
 })();
 
-// catch 404 and forward to error handler
+// 404 error handler
 app.use(function(req, res, next) {
   console.log('404 error handler called');
   const err = new Error("It looks like this page doesn't exists.");
   res.status(404);
   res.render('page-not-found', {err});
-  
+  next(err);
 });
 
-// error handler
+// Global error handler
 app.use(function(err, req, res, next) {
-  
+  if (err.status === 404) {
+    res.render('page-not-found', {err});
+  } else {
+    console.log('500 error handler called');
+    err.status = 500;
+    err.message = 'Oops! Looks like there was a problem with the server';
+    res.status(err.status).render('error', {err});
+  }
 });
 
 

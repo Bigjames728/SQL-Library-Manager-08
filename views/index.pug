@@ -3,6 +3,9 @@ extends layout
 block content
   h1 Books
   p 
+  form(action='/books/search' class='form')
+    input#query(type='search' name='q' placeholder='Search...')
+    button Search
 
     a.button(href='/books/new') Add Book
     table 

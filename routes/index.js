@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Book = require('../models').Book;
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+const { Op } = require('sequelize');
 
 
 function asyncHandler(cb) {
@@ -96,7 +96,7 @@ router.post('/books/:id/delete', asyncHandler( async (req, res, next) => {
 
 // Search for books
 router.get('/search', asyncHandler (async (req, res, next) => {
-  let { q } = req.query;
+  const { q } = req.query;
 
   q = q.toLowerCase();
 

@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Book = require('../models').Book;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 function asyncHandler(cb) {
@@ -91,5 +93,17 @@ router.post('/books/:id/delete', asyncHandler( async (req, res, next) => {
     res.sendStatus(404);
   }
 }));
+
+// Search for books
+router.get('/search', asyncHandler (async (req, res, next) => {
+  let { q } = req.query;
+
+  q = q.toLowerCase();
+
+  Book.findAll({ where: { title: { [Op.like]: '%' + q + '%' } } })
+    .then(books => res.render('books', { books }))
+    .catch(err => console.log(err));
+}));
+
 
 module.exports = router;

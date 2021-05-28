@@ -49,6 +49,15 @@ router.post('/books/new', asyncHandler(async (req, res) => {
   }
 }));
 
+// Search for books - * this has to be above the '/books/:id' route *
+router.get('/books/search', asyncHandler (async (req, res, next) => {
+  const { q } = req.query;
+
+  Book.findAll({ where: { title: { [Op.like]: '%' + q + '%' } } })
+    .then(books => res.render('index', { books }))
+    .catch(err => console.log(err));
+}));
+
 // Shows book detail form
 router.get('/books/:id', asyncHandler (async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
@@ -92,17 +101,6 @@ router.post('/books/:id/delete', asyncHandler( async (req, res, next) => {
   } else {
     res.sendStatus(404);
   }
-}));
-
-// Search for books
-router.get('/search', asyncHandler (async (req, res, next) => {
-  const { q } = req.query;
-
-  q = q.toLowerCase();
-
-  Book.findAll({ where: { title: { [Op.like]: '%' + q + '%' } } })
-    .then(books => res.render('books', { books }))
-    .catch(err => console.log(err));
 }));
 
 

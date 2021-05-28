@@ -8,6 +8,9 @@ block content
     button Search
 
     a.button(href='/books/new') Add Book
+    if (q)
+      a.button(href='/books') Back to Books List
+      
     table 
       thead 
         tr 
@@ -25,4 +28,11 @@ block content
           td #{book.author}
           td #{book.genre}
           td #{book.year}
+    p.pagination                
+      - let i = 0;
+      while i < numOfPages
+          a(class="pagination-button" href=`/books/search?q=${q}&page=${++ i}`) #{ i } 
+                
+     
+
   

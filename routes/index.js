@@ -16,20 +16,6 @@ function asyncHandler(cb) {
   }
 }
 
-// Below I'm attempting to add pagination to this app
-
-// sequelize.sync({ force: true }).then(async () => {
-//   for (let i = 1; i <= 25; i++) {
-//     const book = {
-//       title: `${title}`,
-//       author: `${author}`,
-//       genre: `${genre}`,
-//       year: `${year}`
-//     }
-//     await Book.create(book);
-//   }
-// });
-
 // Redirect when the url is localhost:3000/ to localhost:3000/books
 router.get('/', asyncHandler(async(req, res) => {
   res.redirect('/books');
@@ -65,12 +51,14 @@ router.post('/books/new', asyncHandler(async (req, res) => {
 }));
 
 // Search for books - * this has to be above the '/books/:id' route *
-// This is where I placed my pagination code. I then 
+// This is where I placed my pagination code. I then added pagination
+// buttons to index.pug
 router.get('/books/search', asyncHandler (async (req, res, next) => {
   const { q, page } = req.query;
 
-  if (!page)
+  if (!page) {
     return res.redirect('?q=' + q + '&page=1');
+  }
   
   const limit = 5;
   const offset = limit * ((+ page) - 1);
@@ -110,17 +98,10 @@ router.get('/books/search', asyncHandler (async (req, res, next) => {
   const numOfPages = Math.ceil(numOfResults / limit);
   const books = query.rows;
 
-  if (numOfResults && (+ page) > numOfPages)
+  if (numOfResults && (+ page) > numOfPages) {
     return next();
-
+  }
   res.render('index', { title: 'Search Results', page, numOfResults, numOfPages, books, q });
-
-
-  // Book.findAll({
-    
-  // })
-  // .then(books => res.render('index', { books }))
-  // .catch(err => console.log(err));
 }));
 
 // Shows book detail form

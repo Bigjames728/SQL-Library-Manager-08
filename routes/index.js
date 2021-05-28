@@ -65,12 +65,20 @@ router.post('/books/new', asyncHandler(async (req, res) => {
 }));
 
 // Search for books - * this has to be above the '/books/:id' route *
+// This is where I placed my pagination code. I then 
 router.get('/books/search', asyncHandler (async (req, res, next) => {
-  const { q } = req.query;
+  const { q, page } = req.query;
 
-  Book.findAll({
+  if (!page)
+    return res.redirect('?q=' + q + '&page=1');
+  
+  const limit = 5;
+  const offset = limit * ((+ page) - 1);
+
+  const query = await Book.findAndCountAll({
     where: {
-      [Op.or]: [{
+      [Op.or]: [
+        {
           title: {
             [Op.like]: '%' + q + '%'
           }
@@ -92,10 +100,27 @@ router.get('/books/search', asyncHandler (async (req, res, next) => {
         }
           
       ]
-    }
-  })
-  .then(books => res.render('index', { books }))
-  .catch(err => console.log(err));
+    },
+    order: [['year', 'DESC']],
+    offset,
+    limit
+  });
+
+  const numOfResults = query.count;
+  const numOfPages = Math.ceil(numOfResults / limit);
+  const books = query.rows;
+
+  if (numOfResults && (+ page) > numOfPages)
+    return next();
+
+  res.render('index', { title: 'Search Results', page, numOfResults, numOfPages, books, q });
+
+
+  // Book.findAll({
+    
+  // })
+  // .then(books => res.render('index', { books }))
+  // .catch(err => console.log(err));
 }));
 
 // Shows book detail form

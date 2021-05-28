@@ -60,7 +60,7 @@ router.get('/books/search', asyncHandler (async (req, res, next) => {
     return res.redirect('?q=' + q + '&page=1');
   }
   
-  const limit = 5;
+  const limit = 4;
   const offset = limit * ((+ page) - 1);
 
   const query = await Book.findAndCountAll({

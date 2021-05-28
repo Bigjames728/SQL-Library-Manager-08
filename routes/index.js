@@ -53,9 +53,34 @@ router.post('/books/new', asyncHandler(async (req, res) => {
 router.get('/books/search', asyncHandler (async (req, res, next) => {
   const { q } = req.query;
 
-  Book.findAll({ where: { title: { [Op.like]: '%' + q + '%' } } })
-    .then(books => res.render('index', { books }))
-    .catch(err => console.log(err));
+  Book.findAll({
+    where: {
+      [Op.or]: [{
+          title: {
+            [Op.like]: '%' + q + '%'
+          }
+        },
+        {
+          author: {
+            [Op.like]: '%' + q + '%'
+          }
+        },
+        {
+          genre: {
+            [Op.like]: '%' + q + '%'
+          }
+        },
+        {
+          year: {
+            [Op.like]: '%' + q + '%'
+          }
+        }
+          
+      ]
+    }
+  })
+  .then(books => res.render('index', { books }))
+  .catch(err => console.log(err));
 }));
 
 // Shows book detail form

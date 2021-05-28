@@ -3,6 +3,7 @@ var router = express.Router();
 var Book = require('../models').Book;
 const Sequelize = require('sequelize');
 const { Op } = require('sequelize');
+// var sequelize = require('../models').sequelize;
 
 
 function asyncHandler(cb) {
@@ -14,6 +15,20 @@ function asyncHandler(cb) {
     }
   }
 }
+
+// Below I'm attempting to add pagination to this app
+
+// sequelize.sync({ force: true }).then(async () => {
+//   for (let i = 1; i <= 25; i++) {
+//     const book = {
+//       title: `${title}`,
+//       author: `${author}`,
+//       genre: `${genre}`,
+//       year: `${year}`
+//     }
+//     await Book.create(book);
+//   }
+// });
 
 // Redirect when the url is localhost:3000/ to localhost:3000/books
 router.get('/', asyncHandler(async(req, res) => {

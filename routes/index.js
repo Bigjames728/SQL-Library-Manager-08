@@ -28,6 +28,22 @@ router.get('/books', asyncHandler (async(req, res, next) => {
   res.render('index', { books: books });
 }));
 
+// Attempting to create the pagination on the home route
+// router.get('/books/page/:page', asyncHandler(async (req, res) => {
+//   let page = req.params.page
+//   let limit = 5
+//   let offset = (page-1) * limit;
+
+//   const pagesOfBooks = await Book.findAll({
+//     offset,
+//     limit
+//   });
+//   const books = await Book.findAll({});
+
+//   numOfPages = Math.ceil(allBooks.length / limit);
+//   res.render('index', { numOfPages, title: 'Books', pagesOfBooks })
+// }))
+
 // Create new book form
 router.get('/books/new', asyncHandler (async(req, res, next) => {
   res.render('new-book');

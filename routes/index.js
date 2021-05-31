@@ -34,6 +34,7 @@ router.get('/books', asyncHandler (async(req, res, next) => {
 //   let limit = 5
 //   let offset = (page-1) * limit;
 
+// Below I'm getting all the books with the findAll() method and I'm passing in offset and limit to limit the number of books on the page.
 //   const pagesOfBooks = await Book.findAll({
 //     offset,
 //     limit

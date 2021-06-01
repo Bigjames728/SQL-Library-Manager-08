@@ -29,11 +29,11 @@ router.get('/books', asyncHandler (async(req, res, next) => {
 }));
 
 // Attempting to create the pagination on the home route
-router.get('/books/page/:page', asyncHandler(async (req, res) => {
+router.get('/books/page=:page', asyncHandler(async (req, res) => {
   const page = req.params.page;
 
   const limit = 4;
-  const offset = limit * ((+ page) - 1);
+  const offset = (page * limit) - limit;
 
   const books = await Book.findAndCountAll({
     offset,

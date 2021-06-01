@@ -29,21 +29,27 @@ router.get('/books', asyncHandler (async(req, res, next) => {
 }));
 
 // Attempting to create the pagination on the home route
-// router.get('/books/page/:page', asyncHandler(async (req, res) => {
-//   let page = req.params.page
-//   let limit = 5
-//   let offset = (page-1) * limit;
+router.get('/books/page/:page', asyncHandler(async (req, res) => {
+  const page = req.params.body;
+  
+  const limit = 4;
+  const offset = limit * ((+ page) - 1);
 
-// Below I'm getting all the books with the findAll() method and I'm passing in offset and limit to limit the number of books on the page.
-//   const pagesOfBooks = await Book.findAll({
-//     offset,
-//     limit
-//   });
-//   const books = await Book.findAll({});
+  const books = await Book.findAndCountAll({
+    offset,
+    limit
+  });
 
-//   numOfPages = Math.ceil(allBooks.length / limit);
-//   res.render('index', { numOfPages, title: 'Books', pagesOfBooks })
-// }))
+  const numOfResults = books.count;
+  const numOfPages = Math.ceil(numOfResults / limit);
+  
+
+  if (numOfResults && (+ page) > numOfPages) {
+    return next();
+  }
+  res.render('index', { title: 'Books', page, numOfResults, numOfPages, books });
+}));
+
 
 // Create new book form
 router.get('/books/new', asyncHandler (async(req, res, next) => {

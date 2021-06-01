@@ -47,7 +47,7 @@ router.get('/books/page/:page', asyncHandler(async (req, res) => {
   if (numOfResults && (+ page) > numOfPages) {
     return next();
   }
-  res.render('index', { title: 'Books', page, numOfResults, numOfPages, books });
+  res.render('index', { page, numOfResults, numOfPages, books });
 }));
 
 

@@ -30,19 +30,24 @@ router.get('/books', asyncHandler (async(req, res, next) => {
 
 // Attempting to create the pagination on the home route
 router.get('/books/page=:page', asyncHandler(async (req, res) => {
-  const page = req.params.page;
+  const page = req.query.page;
 
+  if (!page) {
+    return res.redirect('?q=' + q + '&page=1');
+  }
+  
   const limit = 4;
-  const offset = (page * limit) - limit;
+  const offset = (page - 1) * limit;
 
-  const books = await Book.findAndCountAll({
+  const query = await Book.findAndCountAll({
+    
     offset,
     limit
   });
 
-  const numOfResults = books.count;
+  const numOfResults = query.count;
   const numOfPages = Math.ceil(numOfResults / limit);
-  
+  const books = query.rows;
 
   if (numOfResults && (+ page) > numOfPages) {
     return next();

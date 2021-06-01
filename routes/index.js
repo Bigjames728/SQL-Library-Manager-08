@@ -30,8 +30,8 @@ router.get('/books', asyncHandler (async(req, res, next) => {
 
 // Attempting to create the pagination on the home route
 router.get('/books/page/:page', asyncHandler(async (req, res) => {
-  const page = req.params.body;
-  
+  const page = req.params.page;
+
   const limit = 4;
   const offset = limit * ((+ page) - 1);
 

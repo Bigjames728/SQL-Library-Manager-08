@@ -31,7 +31,10 @@ block content
     p.pagination                
       - let i = 0;
       while i < numOfPages
-          a(class="pagination-button" href=`/books/search?q=${q}&page=${++ i}`) #{ i } 
+        if(q)
+          a(class="pagination-button" href=`/books/search?q=${q}&page=${++ i}`) #{ i }
+        else
+          a(class="pagination-button" href=`/books/?page=${++ i}`) #{i}
                 
      
 

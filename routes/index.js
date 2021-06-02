@@ -22,33 +22,23 @@ router.get('/', asyncHandler(async(req, res) => {
 }));
 
 
-/* GET home page. */
-router.get('/books', asyncHandler (async(req, res, next) => {
-  const books = await Book.findAll();
-  res.render('index', { books: books });
-}));
-
-// Attempting to create the pagination on the home route
-router.get('/books/page=:page', asyncHandler(async (req, res) => {
+// GETs home page and adds pagination to it
+router.get('/books', asyncHandler(async (req, res) => {
   const page = req.query.page;
-
   if (!page) {
-    return res.redirect('?q=' + q + '&page=1');
+    return res.redirect('?page=1');
   }
   
   const limit = 4;
   const offset = (page - 1) * limit;
-
   const query = await Book.findAndCountAll({
     
     offset,
     limit
   });
-
   const numOfResults = query.count;
   const numOfPages = Math.ceil(numOfResults / limit);
   const books = query.rows;
-
   if (numOfResults && (+ page) > numOfPages) {
     return next();
   }

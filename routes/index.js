@@ -29,7 +29,7 @@ router.get('/books', asyncHandler(async (req, res) => {
     return res.redirect('?page=1');
   }
   
-  const limit = 4;
+  const limit = 5;
   const offset = (page - 1) * limit;
   const query = await Book.findAndCountAll({
     
@@ -78,7 +78,7 @@ router.get('/books/search', asyncHandler (async (req, res, next) => {
     return res.redirect('?q=' + q + '&page=1');
   }
   
-  const limit = 4;
+  const limit = 5;
   const offset = limit * ((+ page) - 1);
 
   const query = await Book.findAndCountAll({
